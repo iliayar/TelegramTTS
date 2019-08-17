@@ -63,8 +63,10 @@ func main() {
 	log.Printf("[Tg] Authorized")
 
 	b.Handle(tb.OnQuery, func(q *tb.Query) {
-		if strings.ContainsAny(q.Text,"\"\\/\'") {
+		if strings.ContainsAny(q.Text,"\"\\/'") {
 			log.Panic("Escape cahracters met")
+			
+			q.Text = "Взлом жопы"	
 		}
 
 		err = genText(q.From.Username,q.Text)
