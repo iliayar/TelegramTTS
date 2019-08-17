@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 	"errors"
+	"strings"
 
 	tb "gopkg.in/tucnak/telebot.v2"
 )
@@ -62,7 +63,12 @@ func main() {
 	log.Printf("[Tg] Authorized")
 
 	b.Handle(tb.OnQuery, func(q *tb.Query) {
+		if strings.ContainsAny(q.Text,"\"\\/\'") {
+			log.Panic("Escape cahracters met")
+		}
+
 		err = genText(q.From.Username,q.Text)
+
 		if err != nil {
 			log.Panic(err)
 			return
