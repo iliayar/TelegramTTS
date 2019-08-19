@@ -65,8 +65,11 @@ func main() {
 	b.Handle(tb.OnQuery, func(q *tb.Query) {
 		if strings.ContainsAny(q.Text,"\"\\/'") {
 			log.Panic("Escape cahracters met")
-			
-			q.Text = "Взлом жопы"	
+			return
+		}
+
+		if strings.Index(q.Text, "...") == -1 {
+			return
 		}
 
 		err = genText(q.From.Username,q.Text)
