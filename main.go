@@ -70,13 +70,15 @@ func main() {
 
 		results := make(tb.Results, 1)
 
-		if strings.Index(q.Text, "...") == -1 {
-
+		if q.Text[len(q.Text)-1] != '.' {
+		
 			results[0] = &tb.ArticleResult{
-				Text: "",
+				Text: "There is no text",
 				Title: "Tip",
-				Description: "Add \"...\" in the end of the message",
+				Description: "Add \".\" in the end of the message",
 			}
+		
+			results[0].SetResultID("1")
 
 		} else {
 
@@ -97,14 +99,14 @@ func main() {
 				URL: url,
 				Title: "TTS",
 			}
+
+			results[0].SetResultID("0")
 			
 		}
 
-		results[0].SetResultID("0")
-
 		err := b.Answer(q, &tb.QueryResponse{
 			Results: results,
-			CacheTime: 60,
+			CacheTime: 0,
 		})
 
 		if err != nil {
