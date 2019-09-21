@@ -68,27 +68,37 @@ func main() {
 			return
 		}
 
-		if strings.Index(q.Text, "...") == -1 {
-			return
-		}
-
-		err = genText(q.From.Username,q.Text)
-
-		if err != nil {
-			log.Panic(err)
-			return
-		}
-
-		dir, _ := os.Getwd()
-		url := storeFile(q.From.Username,dir + "\\data\\" + q.From.Username + ".ogg")
-
-		log.Println("[URL] "+url)
-
 		results := make(tb.Results, 1)
-		results[0] = &tb.VoiceResult{
-			URL: url,
-			Title: "TTS",
+
+		if strings.Index(q.Text, "...") == -1 {
+
+			results[0] = &tb.ArticleResult{
+				Text: "Add \"...\" in the end of the message",
+				Title: "Tip",
+			}
+
+		} else {
+
+			err = genText(q.From.Username,q.Text)
+
+			if err != nil {
+				log.Panic(err)
+				return
+			}
+
+			dir, _ := os.Getwd()
+			url := storeFile(q.From.Username,dir + "\\data\\" + q.From.Username + ".ogg")
+
+			log.Println("[URL] "+url)
+
+			
+			results[0] = &tb.VoiceResult{
+				URL: url,
+				Title: "TTS",
+			}
+			
 		}
+
 		results[0].SetResultID("0")
 
 		err := b.Answer(q, &tb.QueryResponse{
