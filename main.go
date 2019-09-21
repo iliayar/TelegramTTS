@@ -73,8 +73,9 @@ func main() {
 		if strings.Index(q.Text, "...") == -1 {
 
 			results[0] = &tb.ArticleResult{
-				Text: "Add \"...\" in the end of the message",
+				Text: "",
 				Title: "Tip",
+				Description: "Add \"...\" in the end of the message",
 			}
 
 		} else {
